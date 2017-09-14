@@ -1,0 +1,83 @@
+5. Design a soft-drink/snacks vending machine.
+
+//OBJECTS IDENTIFICATION
+Object: KeyPad, CreditCardReader, CashDepositor, Product, CreditCard
+
+//OBJECT DESCRIPTION
+KeyPad Object:
+	Attributes: cash, creditcard, 
+	Behaviors: readKeyInput, validateKeyInput,  getCash, getCreditCard
+
+CreditCardReader Object:
+	Attributes: 
+	Behaviors: readCard, validateCard
+  
+CashDepositor Object:
+	Attributes:  totalDeposit, remainBalance
+	Behavior: readCash, addTotalDeposit, getTotalDeposit, getRemainBalance
+  
+Product Object:
+	Attributes: productNumber[], price
+	Behavior: getProductNumber, getPrice, releaseProduct,
+  
+CreditCard Object:
+Attributes:
+Behavior: readCard, validateCard
+
+SEQUENCE OF BUYING SNACKS 
+
+//VALIDATE PRODUCT NUMBER ENTERED BY CUSTOMER
+Print “select a product number”
+Loop
+   If Keypad.readKeyInput != Product.getProductNumber
+		 Print “Invalid product code. Select a valid one”
+   Else
+		 Print “Select either Cash or Credit card button”
+     break
+ End Loop
+ 
+ //VALIDATE PAYMENT OPTION
+ Loop
+  If KeyPad.readKeyInput != KeyPad.getCash or KeyPad.readKeyInput !=  KeyPad.getCreditCard 
+    Print "Select either Cash or CreditCard button"
+  Else
+    break	
+ End Loop
+
+
+//CHECK IF CASH OR CREDIT CARD IS USED
+If Keypad.readKyInput== Keypad.getCash
+	Print “Insert Cash”
+  //COMPARE INSERTED CASH AND PRODUCT PRICE
+	Loop
+    CashDepositor.addTotalDeposit +=  CashDepositor.readCash
+		If  CashDepositor.getTotalDeposit < Product.getPrice
+			Print “Insert more cash”
+    Else
+      break
+	End Loop
+  
+	
+  //GET SNACKS FOR CUSTOMER AND RETURN CHANGE
+  Product.releaseProduct
+  CashDepositor.getRemainBalance = CashDepositor.getTotalDeposit - Product.getPrice
+
+//CREDIT CARD PROCESSING
+Else
+Print "Insert Credit Card"
+Loop
+  If CreditCard.readCard== null 
+    Print "Can not read card, try again"
+  Else If CreditCard.validateCard != true
+    Print "Can not validate card, try again"
+  Else
+    break
+End Loop
+
+//GET SNACKS
+Product.releaseProduct
+
+
+
+
+	
